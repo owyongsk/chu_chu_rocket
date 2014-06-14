@@ -140,3 +140,17 @@ body {
 #game #spawning-points .sp .dummy span {
 	color: black;
 }
+
+#score .row {
+	height: 50px;
+}
+
+#scoreboard .score {
+	width: 125px;
+	height: 50px;
+	display:inline-block;
+	border: 1px solid black;
+	text-align: center;
+	vertical-align: middle;
+	font-size: larger;
+}

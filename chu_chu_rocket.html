@@ -81,10 +81,15 @@
   {{/each}}
 </template>
 
+
 <template name="ccr_score">
+	<div class="row">
   {{#each players}}
-    <p>Player {{number}}: {{score}}</p>
+		<div class="score">
+    		Player {{number}}: {{score}}
+ 	   	</div>
   {{/each}}
+  	</div>
 </template>
 
 <template name="ccr_sps">
