@@ -35,6 +35,7 @@
      <div class="container" >
      	<div id="game" class="row well" style="position:relative;">
      		<div id="map" class="col-xs-12"></div>
+        <div id="arrows" class="col-xs-12">{{> ccr_arrows}}</div>
      		<div id="mice">
      		{{> ccr}}
      		</div>
@@ -44,8 +45,17 @@
      	</div>
 
     </div> <!-- /container -->
-    <button class="btn" onclick="Mice.update(Mice.findOne()._id, {$set:{top:25, left:25, direction:'right'}});">RESET</button>
+    <button class="btn" onclick="Mice.remove({});">RESET</button>
 </body>
+
+<template name="ccr_arrows">
+  {{#each arrows}}
+    <div class="arrow" style="top: {{top}}px; left: {{left}}px;">
+      <div class="diamond">
+      </div>
+    </div>
+  {{/each}}
+</template>
 
 <template name="ccr">
   {{#each mice}}
