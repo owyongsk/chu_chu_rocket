@@ -42,12 +42,13 @@ body {
 
 #game #arrows .arrow .diamond {
 	position: absolute;
-	background-color: red;
+	background-color: transparent;
 	width: 30px;
 	height: 30px;
-	top: 10px;
-	left: 10px;
-
+	top: 0px;
+	left: 5px;
+	text-align: center;
+	font-size: 30pt;
 }
 
 #game #mice .mouse {

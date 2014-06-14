@@ -85,6 +85,18 @@ if (Meteor.isClient) {
     _.each(arrowsTemp, function(arrow, i){
       arrowsTemp[i].top -= 25;
       arrowsTemp[i].left -= 25;
+      arrowsTemp[i].arrow_class = 'glyphicon glyphicon-arrow-' + arrowsTemp[i].direction;
+      var color = '';
+      console.log('arrow.pid = ' , arrow);
+      switch(arrow.pid){
+        case 1:
+          color = 'red';
+          break;
+        case 2:
+          color = 'green';
+          break;
+      }
+      arrowsTemp[i].arrow_style = 'color: ' + color + ';'
     });
     return arrowsTemp;
   }
@@ -122,7 +134,7 @@ Meteor.methods({
       }
       var x = Math.floor(pos.x / 50) * 50 + 25;
       var y = Math.floor(pos.y / 50) * 50 + 25;
-      var aid = Arrows.insert({top: y, left: x, direction: direction});
+      var aid = Arrows.insert({top: y, left: x, direction: direction, pid: playerId});
       arrows[playerId].push(aid);
       return aid;
     }
@@ -163,12 +175,12 @@ if (Meteor.isServer) {
   var t = 0;
   Meteor.setInterval(function(){
     SpawnPoints.find({}).forEach(function(sp){
-      console.log(sp);
+      //console.log(sp);
       delete sp._id;
       Mice.insert(sp);
     });
-    t++;
-    console.log(t);
+    //t++;
+    //console.log(t);
   }, spawningRate);
 
   Meteor.startup(function () {

@@ -1,3 +1,8 @@
+var KEY_W = 87;
+var KEY_A = 65;
+var KEY_S = 83;
+var KEY_D = 68;
+
 $(document).ready(function() {
 	var gamemap = {};
 	
@@ -30,16 +35,17 @@ $(document).ready(function() {
     }); 
 
     $('body').keydown(function(e){
+      var direction = '';
       switch (event.which){
-        case 65:
-          console.log('a', cursorPos);
-          var direction = 'up';
-          Meteor.call('addArrow', id, cursorPos, direction, function(err, result){
-            console.log(err);
-            console.log(result);
-          });
-          break;
+        case KEY_W: direction = 'up'; break;
+        case KEY_A: direction = 'left'; break;
+        case KEY_S: direction = 'down'; break;
+        case KEY_D: direction = 'right'; break;
       }
+      Meteor.call('addArrow', id, cursorPos, direction, function(err, result){
+        console.log(err);
+        console.log(result);
+      });
     });
 	};
 	gamemap.gen(7, 4);
