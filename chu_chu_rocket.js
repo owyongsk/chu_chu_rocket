@@ -6,13 +6,13 @@ SpawnPoints = [[25,25,'right'],[75,325,'left']] // only two
 function move(direction){
   switch(direction) {
     case "up":
-      return {$inc: {top: -2.5}}
+      return {$inc: {top: -50}}
     case "down":
-      return {$inc: {top: 2.5}}
+      return {$inc: {top: 50}}
     case "left":
-      return {$inc: {left: -2.5}}
+      return {$inc: {left: -50}}
     case "right":
-      return {$inc: {left: 2.5}}
+      return {$inc: {left: 50}}
   }
 }
 
@@ -71,9 +71,9 @@ if (Meteor.isServer) {
       var new_direction = directionAfterWall(mouse);
       Mice.update(mouse._id, {$set: {direction: new_direction }});
       Mice.update(mouse._id, move(new_direction));
-      scorePoint(mouse);
+      // scorePoint(mouse);
     });
-  }, 50)
+  }, 1000)
 
   Meteor.startup(function () {
     // code to run on server at startup
