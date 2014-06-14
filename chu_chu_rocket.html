@@ -40,9 +40,9 @@
      		</div>
      	</div>
      	<div id="scoreboard" class="well">
-     		2
+        {{> ccr_score}}
      	</div>
-     	
+
     </div> <!-- /container -->
     <button class="btn" onclick="Mice.update(Mice.findOne()._id, {$set:{top:25, left:25, direction:'right'}});">RESET</button>
 </body>
@@ -56,5 +56,11 @@
       	-->
       </div>
     </div>
+  {{/each}}
+</template>
+
+<template name="ccr_score">
+  {{#each players}}
+    <p>Player {{number}}: {{score}}</p>
   {{/each}}
 </template>
