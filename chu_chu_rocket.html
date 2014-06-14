@@ -33,8 +33,8 @@
       </div>
     </div>
      <div class="container" >
-     	<div id="game" class="well" style="position:relative;">
-     		<div id="map"></div>
+     	<div id="game" class="row well" style="position:relative;">
+     		<div id="map" class="col-xs-12"></div>
      		<div id="mice">
      		{{> ccr}}
      		</div>
@@ -44,12 +44,17 @@
      	</div>
      	
     </div> <!-- /container -->
+    <button class="btn" onclick="Mice.update(Mice.findOne()._id, {$set:{top:25, left:25, direction:'right'}});">RESET</button>
 </body>
 
 <template name="ccr">
   {{#each mice}}
-    <div style="position: absolute; top: {{top}}px; left: {{left}}px;">
-      <h1>I'm a mouse! {{top}} {{left}}</h1>
+    <div class="mouse" style="top: {{top}}px; left: {{left}}px;">
+      <div class="circle">
+      	<!--
+      	<h1>I'm a mouse! {{top}} {{left}}</h1>
+      	-->
+      </div>
     </div>
   {{/each}}
 </template>

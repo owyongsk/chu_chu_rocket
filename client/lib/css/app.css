@@ -4,5 +4,44 @@ body {
 
 #game {
 	width:800px;
-	height: 600px;
+	height: 250px;
+}
+
+#game .cell {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	border: 1px solid black;
+}
+
+#game .row {
+	height: 50px;
+}
+
+#game #map {
+	position: absolute;
+	/*top: 0px;
+	left: 0px;
+	*/
+}
+
+#game #mice {
+	position: absolute;
+	/*top: 0px
+	left: 0px;
+	*/
+}
+
+#game .mouse {
+	position: absolute;
+}
+
+#game .mouse .circle{
+	width: 50px;
+	height: 50px;
+	border-radius: 50px 50px;
+	-moz-border-radius: 50px 50px;
+	-webkit-border-radius: 50px 50px;
+	background-color: blue;
+	position: absolute;
 }

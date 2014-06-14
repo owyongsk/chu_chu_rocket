@@ -5,13 +5,13 @@ SpawnPoints = [[25,25],[25,125]] // only two
 function move(direction){
   switch(direction) {
     case "up":
-      return {$inc: {top: -50}}
+      return {$inc: {top: -2.5}}
     case "down":
-      return {$inc: {top: 50}}
+      return {$inc: {top: 2.5}}
     case "left":
-      return {$inc: {left: -50}}
+      return {$inc: {left: -2.5}}
     case "right":
-      return {$inc: {left: 50}}
+      return {$inc: {left: 2.5}}
   }
 }
 
@@ -31,7 +31,12 @@ function directionAfterWall(mouse){
 
 if (Meteor.isClient) {
   Template.ccr.mice = function() {
-    return Mice.find();
+    var mice = Mice.find().fetch();
+    _.each(mice, function(mouse, i){
+      mice[i].top -= 25;
+      mice[i].left -= 25;
+    });
+    return mice;
   }
 
   // Template.ccr.events({
@@ -48,7 +53,7 @@ if (Meteor.isServer) {
       Mice.update(mouse._id, {$set: {direction: new_direction }});
       Mice.update(mouse._id, move(new_direction));
     });
-  }, 1000)
+  }, 50)
 
   Meteor.startup(function () {
     // code to run on server at startup
