@@ -1,6 +1,6 @@
 Mice = new Meteor.Collection("mice");
 
-SpawnPoints = [[25,25],[25,125]] // only two
+SpawnPoints = [[25,25,'right'],[75,325,'left']] // only two
 
 function move(direction){
   switch(direction) {
@@ -60,10 +60,13 @@ if (Meteor.isServer) {
 
     Mice.remove({}); // remove all mice
 
-    Mice.insert({    // insert one mice
-      direction: "right",
-      left: 25,
-      top: 25
+    _.each(SpawnPoints, function(sp) {
+      Mice.insert({
+        top: sp[0],
+        left: sp[1],
+        direction: sp[2]
+      });
     });
+
   });
 }
