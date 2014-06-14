@@ -21,13 +21,13 @@ if (Meteor.isServer) {
       function move(direction){
         switch(direction) {
           case "up":
-            return {$inc: {top: -25}}
+            return {$inc: {top: -50}}
           case "down":
-            return {$inc: {top: 25}}
+            return {$inc: {top: 50}}
           case "left":
-            return {$inc: {left: -25}}
+            return {$inc: {left: -50}}
           case "right":
-            return {$inc: {left: 25}}
+            return {$inc: {left: 50}}
         }
       }
       Mice.update(mouse._id, move(mouse.direction));
