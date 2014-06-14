@@ -1,19 +1,48 @@
-if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to chu_chu_rocket.";
-  };
+Grids = new Meteor.Collection("grids");
+Mice = new Meteor.Collection("mice");
 
-  Template.hello.events({
-    'click input': function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
-    }
-  });
+SpawnPoints = [[25,25],[25,125]] // only two
+
+if (Meteor.isClient) {
+  Template.ccr.mice = function() {
+    return Mice.find();
+  }
+
+  // Template.ccr.events({
+    // 'click input': function () {
+      // Mice.update(Mice.findOne()._id, {$set: {direction: "right"}})
+    // }
+  // });
 }
 
 if (Meteor.isServer) {
+  Meteor.setInterval(function() {
+    Mice.find({}).forEach(function (mouse) {
+      function move(direction){
+        switch(direction) {
+          case "up":
+            return {$inc: {top: -25}}
+          case "down":
+            return {$inc: {top: 25}}
+          case "left":
+            return {$inc: {left: -25}}
+          case "right":
+            return {$inc: {left: 25}}
+        }
+      }
+      Mice.update(mouse._id, move(mouse.direction));
+    });
+  }, 1000)
+
   Meteor.startup(function () {
     // code to run on server at startup
+
+    Mice.remove({}); // remove all mice
+
+    Mice.insert({    // insert one mice
+      direction: "right",
+      left: 25,
+      top: 25
+    });
   });
 }
