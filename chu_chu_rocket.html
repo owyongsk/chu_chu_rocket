@@ -39,6 +39,7 @@
         <div id="arrows" class="col-xs-12">{{> ccr_arrows}}</div>
         <div id="destinations" class="col-xs-12">{{> ccr_destinations }}</div>
         <div id="spawning-points" class="col-xs-12">{{> ccr_sps }}</div>
+        <div id="cats" class="col-xs-12">{{> ccr_cats }}</div>
      		<div id="mice">{{> ccr}}</div>
      	</div>
      	<div id="scoreboard" class="well">
@@ -102,6 +103,16 @@
 <div class="sp" style="top: {{top}}px; left: {{left}}px;">
   <div class="dummy">
     <span class="{{sp_class}}"></span>
+  </div>
+</div>
+{{/each}}
+</template>
+
+<template name="ccr_cats">
+{{#each cats}}
+<div class="cat" style="top: {{top}}px; left: {{left}}px;">
+  <div class="dummy">
+    <span class="{{cat_class}}"></span>
   </div>
 </div>
 {{/each}}

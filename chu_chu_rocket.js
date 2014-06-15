@@ -3,6 +3,7 @@ Players = new Meteor.Collection("players");
 SpawnPoints = new Meteor.Collection('spawn_points');
 Arrows = new Meteor.Collection('arrows');
 Destinations = new Meteor.Collection('destinations');
+Cats = new Meteor.Collection('cats');
 
 var players = { };
 var arrows = {
@@ -62,14 +63,14 @@ function directionAfterWall(mouse){
   }
 }
 
-function scorePoint(mouse){
+function scorePoint(mouse, op){
   var dst = _.find(destinations, function(dst){
     return mouse.top == dst.top && mouse.left == dst.left;
   });
 
 
   if (dst){
-    Players.update(players['' + dst.pid], {$inc: {score: 1}});
+    Players.update(players['' + dst.pid], op);
     Mice.remove(mouse._id);
   }
 }
@@ -80,6 +81,9 @@ function resetGame(){
   SpawnPoints.remove({});
   Arrows.remove({});
   Destinations.remove({});
+  Cats.remove({});
+
+  Cats.insert({left: 50 * 2 + 25, top: 50 * 1 + 25, direction: 'left'});
 
   _.each(sps, function(sp) {
     SpawnPoints.insert( sp );
@@ -101,6 +105,17 @@ function resetGame(){
 }
 
 if (Meteor.isClient) {
+  Template.ccr_cats.cats = function(){
+    var ret = Cats.find().fetch();
+    _.each(ret, function(cat, i){
+      ret[i].top -= 25;
+      ret[i].left -= 25;
+      ret[i].cat_class = 'glyphicon glyphicon-remove';
+    });
+
+    return ret;
+  };
+
   Template.ccr_sps.sps = function(){
     var ret = _.extend([], sps);
     _.each(ret, function(sp){
@@ -204,6 +219,9 @@ var directionAfterArrow = function(mouse){
 if (Meteor.isServer) {
   var spawningRate = 1000;
   var lock = false;
+  /******************************\
+             Game loop
+  \******************************/
   Meteor.setInterval(function() {
     if (lock == false){
       lock = true;
@@ -213,7 +231,15 @@ if (Meteor.isServer) {
         var new_direction =  directionAfterWall(mouse);
         data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
         Mice.update(mouse._id, data);
-        scorePoint(mouse);
+        scorePoint(mouse, {$inc: {score: 1}});
+      });
+
+      Cats.find().forEach(function(cat){
+        cat.direction = directionAfterArrow(cat);
+        var new_direction = directionAfterWall(cat);
+        data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
+        Cats.update(cat._id, data);
+        scorePoint(cat, {$inc: {score: -15}});
       });
       lock = false;
     } else {
@@ -221,6 +247,9 @@ if (Meteor.isServer) {
     }
   }, 1000);
 
+  /*****************************\
+         Spwaning loop
+  \*****************************/
   var t = 0;
   Meteor.setInterval(function(){
     SpawnPoints.find({}).forEach(function(sp){

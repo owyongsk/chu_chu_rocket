@@ -155,7 +155,6 @@ body {
 	font-size: larger;
 }
 
-
 #scoreboard .player-1 {
 	background-color: red;
 }
@@ -170,4 +169,28 @@ body {
 
 #scoreboard .player-4 {
 	background-color: yellow;
+}
+
+/* cats */
+#game #cats {
+	position: absolute;
+}
+
+#game #cats .cat {
+	position: absolute;
+}
+
+#game #cats .cat .dummy {
+	position: absolute;
+	background-color: transparent;
+	width: 30px;
+	height: 30px;
+	top: 0px;
+	left: 5px;
+	text-align: center;
+	font-size: 30pt;
+}
+
+#game #cats .cat .dummy span {
+	color: black;
 }
