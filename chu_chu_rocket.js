@@ -5,24 +5,44 @@ Arrows = new Meteor.Collection('arrows');
 Destinations = new Meteor.Collection('destinations');
 Cats = new Meteor.Collection('cats');
 
+// 15 x 8
+var MAX_PLAYERS = 4;
+var GRID_LENGTH = 50;
+var MAX_COL = 15;
+var MAX_ROW = 9;
+var MAX_WIDTH = GRID_LENGTH * MAX_COL;
+var MAX_HEIGHT = GRID_LENGTH * MAX_ROW;
+var HALF_GRID = GRID_LENGTH / 2;
+
 var players = { };
 var arrows = {
-  '1' : []
-  , '2' : []
 };
 
+_.each(_.range(1, MAX_PLAYERS+1), function(i){
+  arrows['' + i] = [];
+});
+
+var grid2pixel = function(col, row){
+  return {top: row * GRID_LENGTH + HALF_GRID, left: col * GRID_LENGTH + HALF_GRID};
+}
+
+var RIGHT = 'right';
+var UP = 'up';
+var LEFT = 'left';
+var DOWN = 'down';
+
 var sps = [
-    {player: 1, top: 25, left:25 , direction:'right'}
-  , {player: 2, top: 75, left:325, direction:'left'}
-  , {player: 1, top: 125, left:25 , direction:'right'}
-  , {player: 2, top: 175, left:325, direction:'left'}
+    _.extend({player: 1, direction: UP}   , grid2pixel(6,3))
+  , _.extend({player: 1, direction: RIGHT}, grid2pixel(8,3))
+  , _.extend({player: 2, direction: DOWN} , grid2pixel(8,5))
+  , _.extend({player: 2, direction: LEFT} , grid2pixel(6,5))
 ];
 
 var destinations = [
-    {pid: 1, top:  25, left: 325 }
-  , {pid: 2, top:  75, left:  25 }
-  , {pid: 1, top: 125, left: 325 }
-  , {pid: 2, top: 175, left:  25 }
+    _.extend(grid2pixel(0,0), {pid: 1})
+  , _.extend(grid2pixel(MAX_COL-1,0), {pid: 2})
+  , _.extend(grid2pixel(0,MAX_ROW-1), {pid: 3})
+  , _.extend(grid2pixel(MAX_COL-1,MAX_ROW-1), {pid: 4})
 ];
 
 function move(direction){
@@ -40,23 +60,28 @@ function move(direction){
 
 function directionAfterWall(mouse){
   // Corner cases
-  if        (mouse.top <= 25  && mouse.left <= 25  && mouse.direction == 'left') {
+  var topLeftCon = grid2pixel(0,0);
+  var topRightCon = grid2pixel(MAX_COL-1, 0);
+  var bottomLeftCon = grid2pixel(0, MAX_ROW-1);
+  var bottomRightCon = grid2pixel(MAX_COL-1, MAX_ROW-1);
+
+  if        (mouse.top <= topLeftCon.top  && mouse.left <= topLeftCon.left  && mouse.direction == 'left') {
     return 'right';
-  } else if (mouse.top <= 25  && mouse.left >= 325 && mouse.direction == 'up') {
+  } else if (mouse.top <= topRightCon.top && mouse.left >= topRightCon.left && mouse.direction == 'up') {
     return 'down';
-  } else if (mouse.top >= 175 && mouse.left >= 325 && mouse.direction == 'right') {
+  } else if (mouse.top >= bottomRightCon.top && mouse.left >= bottomRightCon.left && mouse.direction == 'right') {
     return 'left';
-  } else if (mouse.top >= 175 && mouse.left <= 25  && mouse.direction == 'down') {
+  } else if (mouse.top >= bottomLeftCon.top && mouse.left <= bottomLeftCon.left && mouse.direction == 'down') {
     return 'up';
 
   // Wall cases
-  } else if (mouse.top  <= 25  && mouse.direction == 'up'){
+  } else if (mouse.top  <= topLeftCon.top  && mouse.direction == 'up'){
     return 'right';
-  } else if (mouse.top  >= 175 && mouse.direction == 'down'){
+  } else if (mouse.top  >= bottomLeftCon.top && mouse.direction == 'down'){
     return 'left';
-  } else if (mouse.left <= 25  && mouse.direction == 'left'){
+  } else if (mouse.left <= topLeftCon.left  && mouse.direction == 'left'){
     return 'up';
-  } else if (mouse.left >= 325 && mouse.direction == 'right'){
+  } else if (mouse.left >= topRightCon.left && mouse.direction == 'right'){
     return 'down';
   } else {
     return mouse.direction;
@@ -116,13 +141,12 @@ function resetGame(){
     Destinations.insert( dst );
   });
 
-  players['1'] = Players.insert({
-    number: 1,
-    score: 0
-  });
-  players['2'] = Players.insert({
-    number: 2,
-    score: 0
+  _.each(_.range(1, MAX_PLAYERS+1), function(i){
+    players['' + i] = Players.insert({
+      number: i,
+      score: 0
+    });
+
   });
 }
 

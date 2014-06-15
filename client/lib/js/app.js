@@ -51,6 +51,6 @@ $(document).ready(function() {
       }
     });
 	};
-	gamemap.gen(7, 4);
+	gamemap.gen(15, 9);
 
 });
