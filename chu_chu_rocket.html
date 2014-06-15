@@ -15,6 +15,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="/css/app.css">
+    <script src="purl.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -37,9 +38,8 @@
      		<div id="map" class="col-xs-12"></div>
         <div id="arrows" class="col-xs-12">{{> ccr_arrows}}</div>
         <div id="destinations" class="col-xs-12">{{> ccr_destinations }}</div>
-     		<div id="mice">
-     		{{> ccr}}
-     		</div>
+        <div id="spawning-points" class="col-xs-12">{{> ccr_sps }}</div>
+     		<div id="mice">{{> ccr}}</div>
      	</div>
      	<div id="scoreboard" class="well">
         {{> ccr_score}}
@@ -85,4 +85,14 @@
   {{#each players}}
     <p>Player {{number}}: {{score}}</p>
   {{/each}}
+</template>
+
+<template name="ccr_sps">
+{{#each sps}}
+<div class="sp" style="top: {{top}}px; left: {{left}}px;">
+  <div class="dummy">
+    <span class="{{sp_class}}"></span>
+  </div>
+</div>
+{{/each}}
 </template>

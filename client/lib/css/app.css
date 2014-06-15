@@ -117,3 +117,26 @@ body {
 	background-color: #17427d;
 	position: absolute;
 }
+
+#game #spawning-points {
+	position: absolute;
+}
+
+#game #spawning-points .sp {
+	position: absolute;
+}
+
+#game #spawning-points .sp .dummy {
+	position: absolute;
+	background-color: transparent;
+	width: 30px;
+	height: 30px;
+	top: 0px;
+	left: 5px;
+	text-align: center;
+	font-size: 30pt;
+}
+
+#game #spawning-points .sp .dummy span {
+	color: black;
+}

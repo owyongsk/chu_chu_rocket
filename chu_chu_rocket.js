@@ -52,22 +52,42 @@ function directionAfterWall(mouse){
 }
 
 function scorePoint(mouse){
+  var dst = _.find(destinations, function(dst){
+    return mouse.top == dst.top && mouse.left == dst.left;
+  });
+
+
+  if (dst){
+    Players.update(players['' + dst.pid], {$inc: {score: 1}});
+    Mice.remove(mouse._id);
+  }
   
+  /*
   if (mouse.top == 75 && mouse.left == 25){
     Players.update(players['1'], {$inc: {score: 1}});
   } else if (mouse.top == 175 && mouse.left == 25) {
-    Players.update(players['1'], {$inc: {score: 1}});
-  } else if (mouse.top == 25 && mouse.left == 325) {
     Players.update(players['2'], {$inc: {score: 1}});
+  } else if (mouse.top == 25 && mouse.left == 325) {
+    Players.update(players['1'], {$inc: {score: 1}});
   } else if (mouse.top == 125 && mouse.left == 325) {
     Players.update(players['2'], {$inc: {score: 1}});
   } else {
     return;
   }
-  Mice.remove(mouse._id);
+  */
 }
 
 if (Meteor.isClient) {
+  Template.ccr_sps.sps = function(){
+    var ret = _.extend([], sps);
+    _.each(ret, function(sp){
+      sp.top -= 25;
+      sp.left -= 25;
+      sp.sp_class= 'glyphicon glyphicon-asterisk player-' + sp.player;
+    });
+    return ret;
+  };
+
   Template.ccr.mice = function() {
     var mice = Mice.find().fetch();
     _.each(mice, function(mouse, i){
@@ -95,7 +115,8 @@ if (Meteor.isClient) {
     _.each(destinations, function(dst, i){
       destinations[i].top -= 25;
       destinations[i].left -= 25;
-      destinations[i].dst_class = 'glyphicon glyphicon-asterisk player-' + dst.pid;
+      //destinations[i].dst_class = 'glyphicon glyphicon-asterisk player-' + dst.pid;
+      destinations[i].dst_class = 'glyphicon glyphicon-cloud-upload player-' + dst.pid;
     });
     return destinations;
   }

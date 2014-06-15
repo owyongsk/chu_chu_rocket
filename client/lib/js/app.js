@@ -6,7 +6,7 @@ var KEY_D = 68;
 $(document).ready(function() {
 	var gamemap = {};
 	
-  var id = 1;
+  var id = purl().param('id') || 1;
 
 	gamemap.selector = '#map';
 	gamemap.gen = function(col, row){
@@ -41,11 +41,14 @@ $(document).ready(function() {
         case KEY_A: direction = 'left'; break;
         case KEY_S: direction = 'down'; break;
         case KEY_D: direction = 'right'; break;
+        default: direction = '';
       }
-      Meteor.call('addArrow', id, cursorPos, direction, function(err, result){
-        console.log(err);
-        console.log(result);
-      });
+      if (direction != ''){
+        Meteor.call('addArrow', id, cursorPos, direction, function(err, result){
+          console.log(err);
+          console.log(result);
+        });
+      }
     });
 	};
 	gamemap.gen(7, 4);
