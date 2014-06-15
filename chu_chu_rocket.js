@@ -38,16 +38,27 @@ function move(direction){
 }
 
 function directionAfterWall(mouse){
-  if (mouse.top <= 25 && mouse.direction == 'up'){
-    return 'right'
-  } else if (mouse.top >= 175 && mouse.direction == 'down') {
-    return 'left'
-  } else if (mouse.left <= 25 && mouse.direction == 'left') {
-    return 'up'
-  } else if (mouse.left >= 325 && mouse.direction == 'right') {
-    return 'down'
+  // Corner cases
+  if        (mouse.top <= 25  && mouse.left <= 25  && mouse.direction == 'left') {
+    return 'right';
+  } else if (mouse.top <= 25  && mouse.left >= 325 && mouse.direction == 'up') {
+    return 'down';
+  } else if (mouse.top >= 175 && mouse.left >= 325 && mouse.direction == 'right') {
+    return 'left';
+  } else if (mouse.top >= 175 && mouse.left <= 25  && mouse.direction == 'down') {
+    return 'up';
+
+  // Wall cases
+  } else if (mouse.top  <= 25  && mouse.direction == 'up'){
+    return 'right';
+  } else if (mouse.top  >= 175 && mouse.direction == 'down'){
+    return 'left';
+  } else if (mouse.left <= 25  && mouse.direction == 'left'){
+    return 'up';
+  } else if (mouse.left >= 325 && mouse.direction == 'right'){
+    return 'down';
   } else {
-    return mouse.direction
+    return mouse.direction;
   }
 }
 
@@ -61,20 +72,6 @@ function scorePoint(mouse){
     Players.update(players['' + dst.pid], {$inc: {score: 1}});
     Mice.remove(mouse._id);
   }
-  
-  /*
-  if (mouse.top == 75 && mouse.left == 25){
-    Players.update(players['1'], {$inc: {score: 1}});
-  } else if (mouse.top == 175 && mouse.left == 25) {
-    Players.update(players['2'], {$inc: {score: 1}});
-  } else if (mouse.top == 25 && mouse.left == 325) {
-    Players.update(players['1'], {$inc: {score: 1}});
-  } else if (mouse.top == 125 && mouse.left == 325) {
-    Players.update(players['2'], {$inc: {score: 1}});
-  } else {
-    return;
-  }
-  */
 }
 
 if (Meteor.isClient) {
