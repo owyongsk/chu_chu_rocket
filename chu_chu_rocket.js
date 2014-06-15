@@ -91,15 +91,12 @@ function directionAfterWall(mouse){
   }
 }
 
-var MAX_GRID_Y = 4 - 1; // 4 grids
-var MAX_GRID_X = 7 - 1; // 7 grids
-
 function spawnCat(){
   // debug
   //var x = 5 * GRID_LENGTH + 25;//_.random(0, MAX_GRID_X) * GRID_LENGTH + 25;
   //var y = 0 * GRID_LENGTH + 25;//_.random(0, MAX_GRID_Y) * GRID_LENGTH + 25;
-  var x = _.random(0, MAX_GRID_X) * GRID_LENGTH + 25;
-  var y = _.random(0, MAX_GRID_Y) * GRID_LENGTH + 25;
+  var x = _.random(0, MAX_COL-1) * GRID_LENGTH + 25;
+  var y = _.random(0, MAX_ROW-1) * GRID_LENGTH + 25;
   var dir = 'left';
   switch(_.random(0, 3)){
     case 0: dir = 'up'; break;
@@ -133,7 +130,7 @@ function resetGame(numCats){
   Destinations.remove({});
   Cats.remove({});
 
-//  numCats = num  
+//  numCats = num
   var iNumCats = parseInt(numCats, 10);
  // console.log(iNumCats);
   gNumCats = numCats;
@@ -314,15 +311,15 @@ if (Meteor.isServer) {
           console.log('to be removed dbArrows = ', arrow);
           Arrows.remove(arrow);
           var index = -1;
-          var arrowId = _.find(arrows, function(a, i){ 
+          var arrowId = _.find(arrows, function(a, i){
             console.log('a = ' + a +  ' aid = ' + arrow._id);
             if ( a == arrow._id ){
               index = i;
-              return true; 
+              return true;
             }
             return false;
           });
-          if (arrowId){ 
+          if (arrowId){
             arrows['' + arrow.pid].splice(index, 1);
           }
         });
