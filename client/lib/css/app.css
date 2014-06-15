@@ -154,3 +154,20 @@ body {
 	vertical-align: middle;
 	font-size: larger;
 }
+
+
+#scoreboard .player-1 {
+	background-color: red;
+}
+
+#scoreboard .player-2 {
+	background-color: blue;
+}
+
+#scoreboard .player-3 {
+	background-color: green;
+}
+
+#scoreboard .player-4 {
+	background-color: yellow;
+}
