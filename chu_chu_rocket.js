@@ -255,14 +255,15 @@ Meteor.methods({
   }
 });
 
-var directionAfterArrow = function(mouse){
-  var arrow = Arrows.findOne({top: mouse.top, left: mouse.left});
+var directionAfterArrow = function(obj, cb){
+  var arrow = Arrows.findOne({top: obj.top, left: obj.left});
   //console.log(arrow);
   if (arrow){
+    if (cb) cb(arrow);
     return arrow.direction;
   }
 
-  return mouse.direction;
+  return obj.direction;
 }
 
 if (Meteor.isServer) {
@@ -293,8 +294,25 @@ if (Meteor.isServer) {
         });
       });
 
+      // Cat move
       _.each(cats, function(cat){
-        cat.direction = directionAfterArrow(cat);
+        cat.direction = directionAfterArrow(cat, function(arrow){
+          var catp = _.pick(cat, 'top', 'left');
+          console.log('to be removed dbArrows = ', arrow);
+          Arrows.remove(arrow);
+          var index = -1;
+          var arrowId = _.find(arrows, function(a, i){ 
+            console.log('a = ' + a +  ' aid = ' + arrow._id);
+            if ( a == arrow._id ){
+              index = i;
+              return true; 
+            }
+            return false;
+          });
+          if (arrowId){ 
+            arrows['' + arrow.pid].splice(index, 1);
+          }
+        });
         var new_direction = directionAfterWall(cat);
         data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
         Cats.update(cat._id, data);
@@ -309,6 +327,7 @@ if (Meteor.isServer) {
           Mice.remove(m);
         });
       });
+
 
       lock = false;
     } else {
