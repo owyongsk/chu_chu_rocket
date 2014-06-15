@@ -248,7 +248,7 @@ if (Meteor.isServer) {
   }, 1000);
 
   /*****************************\
-         Spwaning loop
+         Spawning loop
   \*****************************/
   var t = 0;
   Meteor.setInterval(function(){
