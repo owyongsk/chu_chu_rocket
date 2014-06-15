@@ -63,7 +63,23 @@ function directionAfterWall(mouse){
   }
 }
 
-function scorePoint(mouse, op){
+var MAX_GRID_Y = 4 - 1; // 4 grids
+var MAX_GRID_X = 7 - 1; // 7 grids
+
+function spawnCat(){
+  var x = 5 * 50 + 25;//_.random(0, MAX_GRID_X) * 50 + 25;
+  var y = 0 * 50 + 25;//_.random(0, MAX_GRID_Y) * 50 + 25;
+  var dir = 'left';
+  //switch(_.random(0, 3)){
+  //  case 0: dir = 'up'; break;
+  //  case 1: dir = 'down'; break;
+  //  case 2: dir = 'left'; break;
+  //  case 3: dir = 'right'; break;
+  //}
+  Cats.insert({left:x, top:y, direction: dir});
+}
+
+function scorePoint(mouse, op, cls){
   var dst = _.find(destinations, function(dst){
     return mouse.top == dst.top && mouse.left == dst.left;
   });
@@ -71,7 +87,10 @@ function scorePoint(mouse, op){
 
   if (dst){
     Players.update(players['' + dst.pid], op);
-    Mice.remove(mouse._id);
+    cls.remove(mouse._id);
+    if (cls == Cats){
+      spawnCat();
+    }
   }
 }
 
@@ -83,7 +102,7 @@ function resetGame(){
   Destinations.remove({});
   Cats.remove({});
 
-  Cats.insert({left: 50 * 2 + 25, top: 50 * 1 + 25, direction: 'left'});
+  spawnCat();
 
   _.each(sps, function(sp) {
     SpawnPoints.insert( sp );
@@ -226,21 +245,41 @@ if (Meteor.isServer) {
     if (lock == false){
       lock = true;
       var toUpdate = [];
+
       Mice.find({}).forEach(function (mouse) {
         mouse.direction = directionAfterArrow(mouse);
         var new_direction =  directionAfterWall(mouse);
         data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
         Mice.update(mouse._id, data);
-        scorePoint(mouse, {$inc: {score: 1}});
+        scorePoint(mouse, {$inc: {score: 1}}, Mice);
       });
 
-      Cats.find().forEach(function(cat){
+      // Before cats move, mouse collides cat.
+      var cats =  Cats.find().fetch();
+      _.each(cats, function(cat){
+        var pos = {left: cat.left, top: cat.top};
+        Mice.find(pos).forEach(function(m){
+          Mice.remove(m);
+        });
+      });
+
+      _.each(cats, function(cat){
         cat.direction = directionAfterArrow(cat);
         var new_direction = directionAfterWall(cat);
         data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
         Cats.update(cat._id, data);
-        scorePoint(cat, {$inc: {score: -15}});
+        scorePoint(cat, {$inc: {score: -15}}, Cats);
       });
+
+      // cat moved, cat collide with mouse
+      cats =  Cats.find().fetch();
+      _.each(cats, function(cat){
+        var pos = {left: cat.left, top: cat.top};
+        Mice.find(pos).forEach(function(m){
+          Mice.remove(m);
+        });
+      });
+
       lock = false;
     } else {
       // Do nothing
