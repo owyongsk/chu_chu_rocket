@@ -74,6 +74,32 @@ function scorePoint(mouse){
   }
 }
 
+function resetGame(){
+  Mice.remove({});    // remove all mice
+  Players.remove({}); // remove all players
+  SpawnPoints.remove({});
+  Arrows.remove({});
+  Destinations.remove({});
+
+  _.each(sps, function(sp) {
+    SpawnPoints.insert( sp );
+    Mice.insert(sp);
+  });
+
+  _.each(destinations, function(dst){
+    Destinations.insert( dst );
+  });
+
+  players['1'] = Players.insert({
+    number: 1,
+    score: 0
+  });
+  players['2'] = Players.insert({
+    number: 2,
+    score: 0
+  });
+}
+
 if (Meteor.isClient) {
   Template.ccr_sps.sps = function(){
     var ret = _.extend([], sps);
@@ -156,6 +182,9 @@ Meteor.methods({
       return aid;
     }
     return '';
+  },
+  resetGame: function(){
+    resetGame();
   }
 });
 
@@ -202,29 +231,6 @@ if (Meteor.isServer) {
 
   Meteor.startup(function () {
     // code to run on server at startup
-
-    Mice.remove({});    // remove all mice
-    Players.remove({}); // remove all players
-    SpawnPoints.remove({});
-    Arrows.remove({});
-    Destinations.remove({});
-
-    _.each(sps, function(sp) {
-      SpawnPoints.insert( sp );
-      Mice.insert(sp);
-    });
-
-    _.each(destinations, function(dst){
-      Destinations.insert( dst );
-    });
-
-    players['1'] = Players.insert({
-      number: 1,
-      score: 0
-    });
-    players['2'] = Players.insert({
-      number: 2,
-      score: 0
-    });
+    resetGame();
   });
 }
