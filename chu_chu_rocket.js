@@ -164,7 +164,10 @@ var canPutArrow = function(pid, pos){
     return false;
   }
 
-  //var arr
+  var conflictedArrow = Arrows.findOne({top:y, left:x});
+  if (conflictedArrow){
+    return false;
+  }
   return true;
 }
 
