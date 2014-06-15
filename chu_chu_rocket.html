@@ -36,6 +36,7 @@
      	<div id="game" class="row well" style="position:relative;">
      		<div id="map" class="col-xs-12"></div>
         <div id="arrows" class="col-xs-12">{{> ccr_arrows}}</div>
+        <div id="destinations" class="col-xs-12">{{> ccr_destinations }}</div>
      		<div id="mice">
      		{{> ccr}}
      		</div>
@@ -48,11 +49,21 @@
     <button class="btn" onclick="Mice.remove({});">RESET</button>
 </body>
 
+<template name="ccr_destinations">
+  {{#each destinations}}
+    <div class="destination" style="top: {{top}}px; left: {{left}}px;">
+      <div class="dummy">
+        <span class="{{dst_class}}"></span>
+      </div>
+    </div>
+  {{/each}}
+</template>
+
 <template name="ccr_arrows">
   {{#each arrows}}
     <div class="arrow" style="top: {{top}}px; left: {{left}}px;">
       <div class="diamond">
-        <span class="{{arrow_class}}" style="{{arrow_style}}"></span>
+        <span class="{{arrow_class}}"></span>
       </div>
     </div>
   {{/each}}

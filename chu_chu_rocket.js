@@ -18,10 +18,10 @@ var sps = [
 ];
 
 var destinations = [
-    {player: 1, top:  25, left:325 }
-  , {player: 2, top:  75, left: 25 }
-  , {player: 1, top: 125, left:325 }
-  , {player: 2, top: 175, left: 25 }
+    {pid: 1, top:  25, left: 325 }
+  , {pid: 2, top:  75, left:  25 }
+  , {pid: 1, top: 125, left: 325 }
+  , {pid: 2, top: 175, left:  25 }
 ];
 
 function move(direction){
@@ -85,20 +85,19 @@ if (Meteor.isClient) {
     _.each(arrowsTemp, function(arrow, i){
       arrowsTemp[i].top -= 25;
       arrowsTemp[i].left -= 25;
-      arrowsTemp[i].arrow_class = 'glyphicon glyphicon-arrow-' + arrowsTemp[i].direction;
-      var color = '';
-      console.log('arrow.pid = ' , arrow);
-      switch(arrow.pid){
-        case 1:
-          color = 'red';
-          break;
-        case 2:
-          color = 'green';
-          break;
-      }
-      arrowsTemp[i].arrow_style = 'color: ' + color + ';'
+      arrowsTemp[i].arrow_class = 'glyphicon glyphicon-arrow-' + arrowsTemp[i].direction + ' player-' + arrow.pid;
     });
     return arrowsTemp;
+  }
+
+  Template.ccr_destinations.destinations = function(){
+    var destinations = Destinations.find().fetch();
+    _.each(destinations, function(dst, i){
+      destinations[i].top -= 25;
+      destinations[i].left -= 25;
+      destinations[i].dst_class = 'glyphicon glyphicon-asterisk player-' + dst.pid;
+    });
+    return destinations;
   }
 
   //Template.ccr.events({
@@ -190,10 +189,15 @@ if (Meteor.isServer) {
     Players.remove({}); // remove all players
     SpawnPoints.remove({});
     Arrows.remove({});
+    Destinations.remove({});
 
     _.each(sps, function(sp) {
       SpawnPoints.insert( sp );
       Mice.insert(sp);
+    });
+
+    _.each(destinations, function(dst){
+      Destinations.insert( dst );
     });
 
     players['1'] = Players.insert({

@@ -51,6 +51,57 @@ body {
 	font-size: 30pt;
 }
 
+#game #arrows .arrow .diamond span.player-1 {
+	color: red;
+}
+
+#game #arrows .arrow .diamond span.player-2 {
+	color: blue;
+}
+
+#game #arrows .arrow .diamond span.player-3 {
+	color: green;
+}
+
+#game #arrows .arrow .diamond span.player-4 {
+	color: yellow;
+}
+
+#game #destinations {
+	position: absolute;
+}
+
+#game #destinations .destination{
+	position: absolute;
+}
+
+#game #destinations .destination .dummy{
+	position: absolute;
+	background-color: transparent;
+	width: 30px;
+	height: 30px;
+	top: 0px;
+	left: 5px;
+	text-align: center;
+	font-size: 30pt;
+}
+
+#game #destinations .destination .dummy span.player-1 {
+	color: red;
+}
+
+#game #destinations .destination .dummy span.player-2 {
+	color: blue;
+}
+
+#game #destinations .destination .dummy span.player-3 {
+	color: green;
+}
+
+#game #destinations .destination .dummy span.player-4 {
+	color: yellow;
+}
+
 #game #mice .mouse {
 	position: absolute;
 }
@@ -63,6 +114,6 @@ body {
 	border-radius: 50px 50px;
 	-moz-border-radius: 50px 50px;
 	-webkit-border-radius: 50px 50px;
-	background-color: blue;
+	background-color: #17427d;
 	position: absolute;
 }
