@@ -18,6 +18,9 @@ var players = { };
 var arrows = {
 };
 
+var CAT_PUNISH_SCORE = 50;
+var MICE_SCORE = 1;
+
 _.each(_.range(1, MAX_PLAYERS+1), function(i){
   arrows['' + i] = [];
 });
@@ -278,7 +281,7 @@ if (Meteor.isServer) {
         var new_direction =  directionAfterWall(mouse);
         data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
         Mice.update(mouse._id, data);
-        scorePoint(mouse, {$inc: {score: 1}}, Mice);
+        scorePoint(mouse, {$inc: {score: MICE_SCORE}}, Mice);
       });
 
       // Before cats move, mouse collides cat.
@@ -295,7 +298,7 @@ if (Meteor.isServer) {
         var new_direction = directionAfterWall(cat);
         data = _.extend({}, {$set: {direction: new_direction }}, move(new_direction));
         Cats.update(cat._id, data);
-        scorePoint(cat, {$inc: {score: -15}}, Cats);
+        scorePoint(cat, {$inc: {score: -CAT_PUNISH_SCORE}}, Cats);
       });
 
       // cat moved, cat collide with mouse
