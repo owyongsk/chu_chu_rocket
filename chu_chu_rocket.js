@@ -67,15 +67,18 @@ var MAX_GRID_Y = 4 - 1; // 4 grids
 var MAX_GRID_X = 7 - 1; // 7 grids
 
 function spawnCat(){
-  var x = 5 * 50 + 25;//_.random(0, MAX_GRID_X) * 50 + 25;
-  var y = 0 * 50 + 25;//_.random(0, MAX_GRID_Y) * 50 + 25;
+  // debug
+  //var x = 5 * 50 + 25;//_.random(0, MAX_GRID_X) * 50 + 25;
+  //var y = 0 * 50 + 25;//_.random(0, MAX_GRID_Y) * 50 + 25;
+  var x = _.random(0, MAX_GRID_X) * 50 + 25;
+  var y = _.random(0, MAX_GRID_Y) * 50 + 25;
   var dir = 'left';
-  //switch(_.random(0, 3)){
-  //  case 0: dir = 'up'; break;
-  //  case 1: dir = 'down'; break;
-  //  case 2: dir = 'left'; break;
-  //  case 3: dir = 'right'; break;
-  //}
+  switch(_.random(0, 3)){
+    case 0: dir = 'up'; break;
+    case 1: dir = 'down'; break;
+    case 2: dir = 'left'; break;
+    case 3: dir = 'right'; break;
+  }
   Cats.insert({left:x, top:y, direction: dir});
 }
 
