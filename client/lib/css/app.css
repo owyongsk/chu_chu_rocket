@@ -194,3 +194,19 @@ body {
 #game #cats .cat .dummy span {
 	color: black;
 }
+
+#game .row:nth-of-type(odd) div.cell:nth-of-type(odd){
+	background-color: #E5CCFF;
+}
+
+#game .row:nth-of-type(odd) div.cell:nth-of-type(even){
+	background-color: #FFE5CC;
+}
+
+#game .row:nth-of-type(even) div.cell:nth-of-type(odd){
+	background-color: #FFE5CC;
+}
+
+#game .row:nth-of-type(even) div.cell:nth-of-type(even){
+	background-color: #E5CCFF;
+}
