@@ -51,13 +51,13 @@ var destinations = [
 function move(direction){
   switch(direction) {
     case "up":
-      return {$inc: {top: -50}}
+      return {$inc: {top: -GRID_LENGTH}}
     case "down":
-      return {$inc: {top: 50}}
+      return {$inc: {top: GRID_LENGTH}}
     case "left":
-      return {$inc: {left: -50}}
+      return {$inc: {left: -GRID_LENGTH}}
     case "right":
-      return {$inc: {left: 50}}
+      return {$inc: {left: GRID_LENGTH}}
   }
 }
 
@@ -96,10 +96,10 @@ var MAX_GRID_X = 7 - 1; // 7 grids
 
 function spawnCat(){
   // debug
-  //var x = 5 * 50 + 25;//_.random(0, MAX_GRID_X) * 50 + 25;
-  //var y = 0 * 50 + 25;//_.random(0, MAX_GRID_Y) * 50 + 25;
-  var x = _.random(0, MAX_GRID_X) * 50 + 25;
-  var y = _.random(0, MAX_GRID_Y) * 50 + 25;
+  //var x = 5 * GRID_LENGTH + 25;//_.random(0, MAX_GRID_X) * GRID_LENGTH + 25;
+  //var y = 0 * GRID_LENGTH + 25;//_.random(0, MAX_GRID_Y) * GRID_LENGTH + 25;
+  var x = _.random(0, MAX_GRID_X) * GRID_LENGTH + 25;
+  var y = _.random(0, MAX_GRID_Y) * GRID_LENGTH + 25;
   var dir = 'left';
   switch(_.random(0, 3)){
     case 0: dir = 'up'; break;
@@ -217,8 +217,8 @@ if (Meteor.isClient) {
 
 var canPutArrow = function(pid, pos){
   // center
-  var x = Math.floor(pos.x / 50) * 50 + 25;
-  var y = Math.floor(pos.y / 50) * 50 + 25;
+  var x = Math.floor(pos.x / GRID_LENGTH) * GRID_LENGTH + 25;
+  var y = Math.floor(pos.y / GRID_LENGTH) * GRID_LENGTH + 25;
 
   var conflictedSp = _.find(sps, function(sp, i){
     return sp.top == y && sp.left == x;
@@ -242,8 +242,8 @@ Meteor.methods({
         var firstArrowId = arrows[playerId].shift();
         Arrows.remove({_id: firstArrowId});
       }
-      var x = Math.floor(pos.x / 50) * 50 + 25;
-      var y = Math.floor(pos.y / 50) * 50 + 25;
+      var x = Math.floor(pos.x / GRID_LENGTH) * GRID_LENGTH + 25;
+      var y = Math.floor(pos.y / GRID_LENGTH) * GRID_LENGTH + 25;
       var aid = Arrows.insert({top: y, left: x, direction: direction, pid: playerId});
       arrows[playerId].push(aid);
       return aid;
