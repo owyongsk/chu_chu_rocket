@@ -45,7 +45,9 @@
      	<div id="scoreboard" class="well">
         {{> ccr_score}}
      	</div>
-
+      <form id="form">
+        {{>ccr_config}}
+      </form>
     </div> <!-- /container -->
     <button class="btn" onclick="Meteor.call('resetGame');">RESET</button>
 </body>
@@ -116,4 +118,9 @@
   </div>
 </div>
 {{/each}}
+</template>
+
+<template name="ccr_config">
+  Set number of cats: <input type="text" id="num_cat" value="{{numcats}}" />
+  <input id="btnSetCat" type="button" value="Update" />
 </template>

@@ -53,4 +53,8 @@ $(document).ready(function() {
 	};
 	gamemap.gen(15, 9);
 
+  $('#btnSetCat').on("click", function(event) {
+    var numCats = $("#num_cat").val();
+    Meteor.call('resetGame', numCats);
+  });
 });

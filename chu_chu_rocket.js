@@ -125,7 +125,7 @@ function scorePoint(mouse, op, cls){
   }
 }
 
-function resetGame(){
+function resetGame(numCats){
   Mice.remove({});    // remove all mice
   Players.remove({}); // remove all players
   SpawnPoints.remove({});
@@ -133,7 +133,14 @@ function resetGame(){
   Destinations.remove({});
   Cats.remove({});
 
-  spawnCat();
+//  numCats = num  
+  var iNumCats = parseInt(numCats, 10);
+ // console.log(iNumCats);
+  gNumCats = numCats;
+  for (var i = 0; i < iNumCats; i++) {
+    spawnCat();
+  }
+//  spawnCat();
 
   _.each(sps, function(sp) {
     SpawnPoints.insert( sp );
@@ -208,6 +215,12 @@ if (Meteor.isClient) {
     return destinations;
   }
 
+  // template to render configuration section
+  var gNumCats = 2;
+  Template.ccr_config.numcats = function() {
+    return gNumCats;
+  }
+
   //Template.ccr.events({
   //  'click #game .cell': function () {
   //    console.log('clicked');
@@ -250,8 +263,8 @@ Meteor.methods({
     }
     return '';
   },
-  resetGame: function(){
-    resetGame();
+  resetGame: function(numCats){
+    resetGame(numCats);
   }
 });
 
@@ -351,6 +364,6 @@ if (Meteor.isServer) {
 
   Meteor.startup(function () {
     // code to run on server at startup
-    resetGame();
+    resetGame(2);
   });
 }
