@@ -14,6 +14,11 @@ body {
 	border: 1px solid black;
 }
 
+#game .cell:hover{
+	-webkit-box-shadow: inset 0 0 10px #000000;
+	box-shadow: inset 0 0 10px #000000;
+}
+
 #game .row {
 	height: 50px;
 }

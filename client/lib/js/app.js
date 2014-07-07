@@ -32,6 +32,7 @@ $(document).ready(function() {
 
       cursorPos.x = relX;
       cursorPos.y = relY;
+      console.log('cursorPos = ', cursorPos);
     }); 
 
     $('body').keydown(function(e){
