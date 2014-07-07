@@ -89,19 +89,19 @@ var sps_real_hard = [
 
 var sps_normal = [
     _.extend({direction: UP}   , grid2pixel(6,3))
-  , _.extend({direction: UP}   , grid2pixel(5,2))
-  , _.extend({direction: UP}   , grid2pixel(4,1))
+  //, _.extend({direction: UP}   , grid2pixel(5,2))
+  //, _.extend({direction: UP}   , grid2pixel(4,1))
 
   , _.extend({direction: RIGHT}, grid2pixel(8,3))
-  , _.extend({direction: RIGHT}, grid2pixel(9,2))
-  , _.extend({direction: RIGHT}, grid2pixel(10,1))
+  //, _.extend({direction: RIGHT}, grid2pixel(9,2))
+  //, _.extend({direction: RIGHT}, grid2pixel(10,1))
 
   , _.extend({direction: DOWN} , grid2pixel(8,5))
-  , _.extend({direction: DOWN} , grid2pixel(9,6))
-  , _.extend({direction: DOWN} , grid2pixel(10,7))
+  //, _.extend({direction: DOWN} , grid2pixel(9,6))
+  //, _.extend({direction: DOWN} , grid2pixel(10,7))
 
-  , _.extend({direction: LEFT} , grid2pixel(4,7))
-  , _.extend({direction: LEFT} , grid2pixel(5,6))
+  //, _.extend({direction: LEFT} , grid2pixel(4,7))
+  //, _.extend({direction: LEFT} , grid2pixel(5,6))
   , _.extend({direction: LEFT} , grid2pixel(6,5))
 ];
 var sps = sps_normal;
