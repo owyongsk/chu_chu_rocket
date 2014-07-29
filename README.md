@@ -7,8 +7,8 @@ The idea of this game is **not something new**. We **shamelessly** copy the
 game called "ChuChu Rocket!" by Sega. In case, you don't know this game (very
 likely). Here is the [original ChuChu Rocket multiplayer game play video](http://youtu.be/WHBsA-PZXiA?t=19s).
 
-This project is implemented with [Meteor](http://meteor.com/). You can play the
-our game [here](chu-chu-rocket.meteor.com/?id=1). You can switch to player 2,3 and 4
+This project is implemented with [Meteor](http://meteor.com/). You can play 
+our game [here](http://chu-chu-rocket.meteor.com/?id=1). You can switch to player 2,3 and 4
 by changing the id in the URL to 2,3,4 respectively.
 
 # Game Description
