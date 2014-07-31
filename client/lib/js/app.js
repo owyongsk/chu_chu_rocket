@@ -13,7 +13,7 @@ $(document).ready(function() {
     if (!id) {
       window.location = "/?id=" + (UserStatuses.find().count());
     }
-  }, 2000)
+  }, 4000)
 
 	gamemap.selector = '#map';
 	gamemap.gen = function(col, row){
