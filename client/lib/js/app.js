@@ -6,7 +6,14 @@ var KEY_D = 68;
 $(document).ready(function() {
 	var gamemap = {};
 
-  var id = purl().param('id') || 1;
+  var id = purl().param('id');
+
+  // Redirect to a new id parameter if there's none to auto join as a player
+  setTimeout(function() {
+    if (!id) {
+      window.location = "/?id=" + (UserStatuses.find().count());
+    }
+  }, 2000)
 
 	gamemap.selector = '#map';
 	gamemap.gen = function(col, row){
