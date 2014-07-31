@@ -308,11 +308,11 @@ if (Meteor.isServer) {
       _.each(cats, function(cat){
         cat.direction = directionAfterArrow(cat, function(arrow){
           var catp = _.pick(cat, 'top', 'left');
-          console.log('to be removed dbArrows = ', arrow);
+          // console.log('to be removed dbArrows = ', arrow);
           Arrows.remove(arrow);
           var index = -1;
           var arrowId = _.find(arrows, function(a, i){
-            console.log('a = ' + a +  ' aid = ' + arrow._id);
+            // console.log('a = ' + a +  ' aid = ' + arrow._id);
             if ( a == arrow._id ){
               index = i;
               return true;
