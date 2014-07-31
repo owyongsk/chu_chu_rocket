@@ -4,6 +4,7 @@ SpawnPoints = new Meteor.Collection('spawn_points');
 Arrows = new Meteor.Collection('arrows');
 Destinations = new Meteor.Collection('destinations');
 Cats = new Meteor.Collection('cats');
+UserStatuses = new Meteor.Collection("user_status_sessions")
 
 // 15 x 8
 var MAX_PLAYERS = 4;
@@ -130,14 +131,14 @@ function resetGame(numCats){
   Destinations.remove({});
   Cats.remove({});
 
-//  numCats = num
+  //  numCats = num
   var iNumCats = parseInt(numCats, 10);
- // console.log(iNumCats);
+  // console.log(iNumCats);
   gNumCats = numCats;
   for (var i = 0; i < iNumCats; i++) {
     spawnCat();
   }
-//  spawnCat();
+  //  spawnCat();
 
   _.each(sps, function(sp) {
     SpawnPoints.insert( sp );
@@ -187,6 +188,7 @@ if (Meteor.isClient) {
     });
     return mice;
   }
+
   Template.ccr_score.players = function() {
     return Players.find({});
   }
@@ -223,6 +225,19 @@ if (Meteor.isClient) {
   //    console.log('clicked');
   //  }
   //});
+
+  // Copied from
+  // https://github.com/mizzao/meteor-user-status/blob/master/demo/demo.coffee
+  // to use this meteor package to check for user sessions count
+  Deps.autorun(function(c) {
+    try {
+      UserStatus.startMonitor({
+        threshold: 30000,
+        idleOnBlur: true
+      });
+      return c.stop();
+    } catch (_error) {}
+  });
 }
 
 var canPutArrow = function(pid, pos){
@@ -308,11 +323,11 @@ if (Meteor.isServer) {
       _.each(cats, function(cat){
         cat.direction = directionAfterArrow(cat, function(arrow){
           var catp = _.pick(cat, 'top', 'left');
-          console.log('to be removed dbArrows = ', arrow);
+          // console.log('to be removed dbArrows = ', arrow);
           Arrows.remove(arrow);
           var index = -1;
           var arrowId = _.find(arrows, function(a, i){
-            console.log('a = ' + a +  ' aid = ' + arrow._id);
+            // console.log('a = ' + a +  ' aid = ' + arrow._id);
             if ( a == arrow._id ){
               index = i;
               return true;
@@ -362,5 +377,14 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
     resetGame(2);
+  });
+
+  /*****************************\
+    Publishing connected clients
+  \*****************************/
+  Meteor.publish(null, function() {
+    return [
+      UserStatus.connections.find()
+    ]
   });
 }

@@ -5,14 +5,21 @@ var KEY_D = 68;
 
 $(document).ready(function() {
 	var gamemap = {};
-	
-  var id = purl().param('id') || 1;
+
+  var id = purl().param('id');
+
+  // Redirect to a new id parameter if there's none to auto join as a player
+  setTimeout(function() {
+    if (!id) {
+      window.location = "/?id=" + (UserStatuses.find().count());
+    }
+  }, 4000)
 
 	gamemap.selector = '#map';
 	gamemap.gen = function(col, row){
 		var $game = $(gamemap.selector);
 		// For each row,
-		//   insert col divs 
+		//   insert col divs
 		var html = '';
 		for (var r = 0; r < row ; r++){
 			html += '<div class="row">';
@@ -25,15 +32,15 @@ $(document).ready(function() {
 
     var cursorPos = {x:0, y:0};
     $game.mousemove(function(e){
-      var parentOffset = $(this).offset(); 
+      var parentOffset = $(this).offset();
       //or $(this).offset(); if you really just want the current element's offset
       var relX = e.pageX - parentOffset.left;
       var relY = e.pageY - parentOffset.top;
 
       cursorPos.x = relX;
       cursorPos.y = relY;
-      console.log('cursorPos = ', cursorPos);
-    }); 
+      // console.log('cursorPos = ', cursorPos);
+    });
 
     $('body').keydown(function(e){
       var direction = '';
@@ -46,8 +53,8 @@ $(document).ready(function() {
       }
       if (direction != ''){
         Meteor.call('addArrow', id, cursorPos, direction, function(err, result){
-          console.log(err);
-          console.log(result);
+          // console.log(err);
+          // console.log(result);
         });
       }
     });
